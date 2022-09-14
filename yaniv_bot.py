@@ -1,21 +1,19 @@
 """ YanivBot """
 
-from http import client
 import os, random
 
 import discord
-from dotenv import load_dotenv
 
-load_dotenv()
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+from utils import config
 
-intents = discord.Intents.all()
+DISCORD_TOKEN = config.load()['token']
+COMMAND_PREFIX = config.load()['prefix']
 
 class CustomClient(discord.Client):
     def __init__(self):
         self.quotes = []
 
-        super().__init__(intents=intents)
+        super().__init__(intents=discord.Intents.all())
 
     async def on_ready(self):
         print(f'{self.user} has connected')
@@ -24,10 +22,13 @@ class CustomClient(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content.startswith('$yq'):
+        if message.content[0] != COMMAND_PREFIX:
+            return
+
+        if message.content == '!yq':
             quote = self.get_quote()
             await message.channel.send(f'"{quote}" - __Yaniv__ <:Yshit:824266966775889931>')
-        elif message.content.startswith('$yw'):
+        elif message.content == '!yw':
             await message.channel.send('https://yanivboost.com/')
 
     def get_quote(self) -> str:
