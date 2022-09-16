@@ -8,16 +8,25 @@ class basic(commands.Cog, name='Basic Commands'):
         self.quotes = []
 
     @commands.command(
-        name='yw',
-        description='Use this command for a link to the G.O.A.T of all sites',
-        brief='The legend\'s own site'
+        name='hi',
+        description='Use this command for a greetings.',
+        brief='Hey there!'
     )
     async def website(self, ctx):
-        await ctx.send('https://yanivboost.com/');
+        await ctx.send(f'https://yanivboost.com/');
+
+
+    @commands.command(
+        name='yw',
+        description='Use this command for a link to the G.O.A.T of all sites.',
+        brief='The legend\'s own site.'
+    )
+    async def website(self, ctx):
+        await ctx.send(f'https://yanivboost.com/');
 
     @commands.command(
         name='yq',
-        description='Use this command for a random, classic Yaniv qoute',
+        description='Use this command for a random, classic Yaniv qoute.',
         brief='What has he got to say today?'
     )
     async def qoute(self, ctx):

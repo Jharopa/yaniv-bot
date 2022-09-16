@@ -1,4 +1,11 @@
 {
     "token": "",
     "prefix": "!"
+    "unique_respondees": [
+        123456789
+    ],
+    "responses": [
+        "Hey there!",
+        "Looking good!"
+    ]
 }
