@@ -8,4 +8,6 @@
         "Hey there!",
         "Looking good!"
     ]
+    "steam_api_key": "", 
+    "steam_id": ""
 }

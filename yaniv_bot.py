@@ -23,16 +23,21 @@ async def on_ready() -> None:
     print(f'{bot.user} has connected')
 
 @bot.event
-async def on_message(message):
+async def on_message(message: discord.Message) -> None:
+    if message.author == bot.user or message.author.bot:
+        return
+
     if message.author.id in UNIQUE_RESPONDEES:
         await message.channel.send(random.choice(RESPONSES))
+    else:
+        await bot.process_commands(message)
 
 async def load_cogs() -> None:
     for file in os.listdir('./cogs'):
         if file.endswith('.py'):
             await bot.load_extension(f'cogs.{file[:-3]}')
 
-def main():
+def main() -> None:
     asyncio.run(load_cogs())
     
     bot.run(DISCORD_TOKEN)

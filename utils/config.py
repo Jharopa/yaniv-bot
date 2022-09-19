@@ -1,6 +1,7 @@
 import json
+from typing import Any
 
-def load(filename: str='config'):
+def load(filename: str='config') -> Any:
     try:
         with open(f'{filename}.json', 'r', encoding='UTF-8') as data:
             return json.load(data)
