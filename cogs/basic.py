@@ -1,10 +1,9 @@
 import random
-from tabnanny import check
 
 import discord
 from discord.ext import commands
 
-from utils import checks
+from core import checks
 
 class Basic(commands.Cog, name='Basic Commands'):
     __slots__ = (

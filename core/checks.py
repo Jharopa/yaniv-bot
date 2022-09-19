@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from utils import config
+from core import config
 
 def not_blacklisted():
     async def predicate(context: commands.Context) -> bool:
