@@ -8,6 +8,9 @@
         "Hey there!",
         "Looking good!"
     ]
+        "blacklist": [
+        987654321
+    ],
     "steam_api_key": "", 
     "steam_id": ""
 }

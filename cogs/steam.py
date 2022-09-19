@@ -1,11 +1,9 @@
-import os
-
 import discord
 from discord.ext import commands
 
 import requests
 
-from utils import config
+from utils import config, checks
 
 CONFIGURATION = config.load()
 API_KEY = CONFIGURATION['steam_api_key']
@@ -24,6 +22,7 @@ class Steam(commands.Cog, name='Steam'):
         description='Use this command to receive a link to Yaniv\'s Steam, along with other related information.',
         brief='The legend\'s Steam account.'
     )
+    @checks.not_blacklisted()
     async def steam_profile(self, ctx: commands.Context) -> None:
         with requests.Session() as session:
             user_stats = session.get(f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={API_KEY}&steamids={STEAM_ID}').json()['response']['players'][0]
@@ -42,6 +41,11 @@ class Steam(commands.Cog, name='Steam'):
                 embed.set_image(url=f'http://media.steampowered.com/steamcommunity/public/images/apps/{currently_playing["appid"]}/{currently_playing["img_icon_url"]}.jpg')
 
             await ctx.send(embed=embed)
+
+    @steam_profile.error
+    async def steam_profile_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+        if isinstance(error, commands.CheckFailure):
+            return
 
 async def setup(bot): 
     await bot.add_cog(Steam(bot))
