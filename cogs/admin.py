@@ -9,7 +9,7 @@ class Admin(commands.Cog, name='Admin Commands'):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    @commands.command(
+    @commands.hybrid_command(
         description='Use this command to kick a member of the discord server.',
         brief='Kick a server member.'
     )

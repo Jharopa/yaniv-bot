@@ -15,7 +15,7 @@ class Basic(commands.Cog, name='Basic Commands'):
         self.bot : commands.Bot = bot
         self.quotes : list[str] = []
     
-    @commands.command(
+    @commands.hybrid_command(
         name='yw',
         description='Use this command for a link to the G.O.A.T of all sites.',
         brief='The legend\'s own site.'
@@ -36,7 +36,7 @@ class Basic(commands.Cog, name='Basic Commands'):
         if isinstance(error, commands.CheckFailure):
             return
 
-    @commands.command(
+    @commands.hybrid_command(
         name='yq',
         description='Use this command for a random, classic Yaniv qoute.',
         brief='What has he got to say today?'

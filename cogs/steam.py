@@ -13,7 +13,7 @@ class Steam(commands.Cog, name='Steam Commands'):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot : commands.Bot = bot
     
-    @commands.command(
+    @commands.hybrid_command(
         name='ys',
         description='Use this command to receive a link to Yaniv\'s Steam, along with other related information.',
         brief='The legend\'s Steam account.'

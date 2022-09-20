@@ -20,6 +20,7 @@ bot.config = config
 @bot.event
 async def on_ready() -> None:
     print(f'{bot.user} has connected')
+    await bot.tree.sync()
 
 @bot.event
 async def on_message(message: discord.Message) -> None:
@@ -43,14 +44,15 @@ async def on_command_completion(ctx: commands.Context) -> None:
 @bot.event
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):
     if isinstance(error, errors.UserBlacklisted):
-        await ctx.send(f'{ctx.author.mention} is blacklisted from running {bot.user.mention} commands!')
+        await ctx.channel.send(f'{ctx.author.mention} is blacklisted from running {bot.user.mention} commands on the server!')
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.channel.send(f'{ctx.author.mention} is missing the permissions to run the {bot.user.mention} **{ctx.command}** command!')
     else:
         raise error
 
 @bot.event
 async def on_member_join(member: discord.Member):
-    channel = bot.get_channel(config['notification_channel'])
-    await channel.send(f'{member.mention} has joined the server!')
+    return
 
 async def load_cogs() -> None:
     for file in os.listdir('./cogs'):
