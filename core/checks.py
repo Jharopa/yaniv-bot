@@ -1,10 +1,12 @@
 from discord.ext import commands
 
-from core import config
+from core import config, errors
 
 def not_blacklisted():
-    async def predicate(context: commands.Context) -> bool:
+    async def predicate(ctx: commands.Context) -> bool:
         blacklist = config.load()['blacklist']
-        return not context.author.id in blacklist
+        if ctx.author.id in blacklist:
+            raise errors.UserBlacklisted
+        return True
 
     return commands.check(predicate)

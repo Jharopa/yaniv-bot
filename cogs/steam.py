@@ -10,7 +10,7 @@ class Steam(commands.Cog, name='Steam Commands'):
         'bot',
     )
 
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot : commands.Bot = bot
     
     @commands.command(

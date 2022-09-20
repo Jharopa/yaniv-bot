@@ -1,11 +1,12 @@
 """ YanivBot """
 
 import asyncio, os, random
+from tkinter.messagebox import NO
 
 import discord
 from discord.ext import commands
 
-from core import config
+from core import config, errors
 
 config = config.load()
 
@@ -32,16 +33,24 @@ async def on_message(message: discord.Message) -> None:
         await bot.process_commands(message)
 
 @bot.event
-async def on_command(context: commands.Context):
+async def on_command(ctx: commands.Context) -> None:
     return
 
 @bot.event
-async def on_command_completion(context: commands.Context):
+async def on_command_completion(ctx: commands.Context) -> None:
     return
 
 @bot.event
-async def on_command_error(context: commands.Context, error: commands.CommandError):
-    return
+async def on_command_error(ctx: commands.Context, error: commands.CommandError):
+    if isinstance(error, errors.UserBlacklisted):
+        await ctx.send(f'{ctx.author.mention} is blacklisted from running {bot.user.mention} commands!')
+    else:
+        raise error
+
+@bot.event
+async def on_member_join(member: discord.Member):
+    channel = bot.get_channel(config['notification_channel'])
+    await channel.send(f'{member.mention} has joined the server!')
 
 async def load_cogs() -> None:
     for file in os.listdir('./cogs'):
