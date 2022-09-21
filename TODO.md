@@ -5,11 +5,11 @@
 ---
 - [ ] Admin Commands
   - [x] Kick Command
-  - [ ] Ban Command
+  - [x] Ban Command
   - [ ] Purge Command
-- [ ] Logging utility  
+  - [ ] Timeout Command
+- [ ] Logging utility
 - [ ] Production/Development builds
-- [ ] Research and setup nodemon
 - [ ] Deploy bot
 
 ### Done ✓
