@@ -1,0 +1,16 @@
+{
+    "token": "",
+    "prefix": "!",
+    "notification_channel": 12345678987654321,
+    "unique_respondees": [
+        123456789
+    ],
+    "responses": [
+    ],
+    "blacklist": [
+        123456789,
+        987654321
+    ],
+    "steam_api_key": "",
+    "steam_id": ""
+}
