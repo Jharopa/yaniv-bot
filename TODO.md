@@ -22,7 +22,4 @@
 - [x] Steam command
 - [x] User blacklist for commands
 - [x] Error handling for bot commands
-<<<<<<< HEAD
 - [x] Project configuration
-=======
->>>>>>> 2917e29bbfcc20a4834113c886afae575867d265
