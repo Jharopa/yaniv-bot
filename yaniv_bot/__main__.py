@@ -11,12 +11,10 @@ from yaniv_bot.core import config, errors
 
 config = config.load()
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.message_content = True
 
-bot = commands.Bot(
-    command_prefix=commands.when_mentioned_or(config["prefix"]), intents=intents
-)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"), intents=intents)
 
 bot.config = config
 

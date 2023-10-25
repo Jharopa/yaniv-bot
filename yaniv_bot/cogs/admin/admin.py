@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 
 
@@ -15,7 +16,7 @@ class Admin(commands.Cog, name="Admin Commands"):
     async def kick(
         self,
         ctx: commands.Context,
-        member: commands.MemberConverter,
+        member: discord.Member,
         *,
         reason: str = "Not specified.",
     ):
@@ -30,7 +31,7 @@ class Admin(commands.Cog, name="Admin Commands"):
     async def ban(
         self,
         ctx: commands.Context,
-        member: commands.MemberConverter,
+        member: discord.Member,
         *,
         reason: str = "Not specified.",
     ):
@@ -45,7 +46,7 @@ class Admin(commands.Cog, name="Admin Commands"):
     async def disconnect(
         self,
         ctx: commands.Context,
-        member: commands.MemberConverter,
+        member: discord.Member,
         *,
         reason: str = "Not specified.",
     ):
