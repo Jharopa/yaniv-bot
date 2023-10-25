@@ -37,6 +37,29 @@ class Admin(commands.Cog, name="Admin Commands"):
         await ctx.guild.ban(member, reason=reason)
         await ctx.send(f"User {member.mention} has been banned. Reason: {reason}")
 
+    @commands.hybrid_command(
+        description="Use this command to disconnect a member of the discord server.",
+        brief="Disconnects a server member",
+    )
+    @commands.has_permissions(kick_members=True)
+    async def disconnect(
+        self,
+        ctx: commands.Context,
+        member: commands.MemberConverter,
+        *,
+        reason: str = "Not specified.",
+    ):
+        try:
+            channel = member.voice.channel
+
+            if channel:
+                await member.move_to(None)
+                await ctx.send(
+                    f"User {member.mention} has been disconnected. Reason: {reason}"
+                )
+        except AttributeError:
+            await ctx.send(f"User {member.mention} is already disconnected.")
+
 
 async def setup(bot):
     await bot.add_cog(Admin(bot))

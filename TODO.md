@@ -8,6 +8,7 @@
   - [x] Ban Command
   - [ ] Purge Command
   - [ ] Timeout Command
+  - [X] Disconnect Command
 - [ ] Logging utility
 - [ ] Production/Development builds
 - [ ] Deploy bot
