@@ -83,9 +83,10 @@ async def on_member_join(member: discord.Member):
 
 
 async def load_cogs() -> None:
-    for file in os.listdir("./yaniv_bot/cogs"):
-        if file.endswith(".py"):
-            await bot.load_extension(f"yaniv_bot.cogs.{file[:-3]}")
+    for folder in os.listdir("./yaniv_bot/cogs"):
+        for file in os.listdir(f"./yaniv_bot/cogs/{folder}"):
+            if file.endswith(".py") and file not in []:
+                await bot.load_extension(f"yaniv_bot.cogs.{folder}.{file[:-3]}")
 
 
 def main() -> None:
