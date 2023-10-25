@@ -17,7 +17,7 @@ class Basic(commands.Cog, name="Basic Commands"):
         self.quotes: list[str] = []
 
     @commands.hybrid_command(
-        name="yw",
+        name="site",
         description="Use this command for a link to the G.O.A.T of all sites.",
         brief="The legend's own site.",
     )
@@ -40,7 +40,7 @@ class Basic(commands.Cog, name="Basic Commands"):
             return
 
     @commands.hybrid_command(
-        name="yq",
+        name="quote",
         description="Use this command for a random, classic Yaniv qoute.",
         brief="What has he got to say today?",
     )
