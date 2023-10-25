@@ -3,6 +3,7 @@
 import asyncio
 import os
 import random
+from datetime import datetime
 
 import discord
 from discord.ext import commands
@@ -20,6 +21,7 @@ bot = commands.Bot(
 
 bot.config = config
 
+message_logs = {}
 
 @bot.event
 async def on_ready() -> None:
@@ -35,9 +37,20 @@ async def on_message(message: discord.Message) -> None:
     if message.author.id in bot.config["unique_respondees"]:
         await message.channel.send(random.choice(bot.config["responses"]))
         await bot.process_commands(message)
+    
+    if message.author.id == 276867841540489228:
+        message_logs.update({message.id: message.content})
     else:
         await bot.process_commands(message)
 
+
+@bot.event
+async def on_message_delete(message: discord.Message) -> None:
+    if message.id in message_logs:
+        await message.channel.send(f'{message.author.mention} just deleted a message')
+        await message.channel.send(
+            f'{message_logs[message.id]}'
+        )
 
 @bot.event
 async def on_command(ctx: commands.Context) -> None:

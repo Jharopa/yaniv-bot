@@ -11,6 +11,7 @@
 - [ ] Logging utility
 - [ ] Production/Development builds
 - [ ] Deploy bot
+- [ ] Message deletion logging
 
 ### Done ✓
 ---
