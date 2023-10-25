@@ -71,6 +71,15 @@ class Basic(commands.Cog, name="Basic Commands"):
 
         self.quotes = quotes
 
+    @commands.hybrid_command(
+        name="about",
+        description="Use this command for more information on Yaniv bot.",
+        brief="Yaniv bot information",
+    )
+    @checks.not_blacklisted()
+    async def about(self, ctx: commands.Context) -> None:
+        await ctx.send("https://github.com/Jharopa/yaniv-bot")
+
 
 async def setup(bot):
     await bot.add_cog(Basic(bot))
