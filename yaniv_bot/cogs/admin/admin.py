@@ -61,6 +61,20 @@ class Admin(commands.Cog, name="Admin Commands"):
         except AttributeError:
             await ctx.send(f"User {member.mention} is already disconnected.")
 
+    @commands.hybrid_command(
+        description="Use this command to sync Yaniv bot's slash commands with the server",
+        brief="Syncs Yaniv bot's slash commands",
+    )
+    @commands.has_permissions(administrator=True)
+    async def sync(
+        self,
+        ctx: commands.Context,
+    ):
+        await self.bot.tree.sync(guild=ctx.guild)
+        await ctx.send(
+            f"{ctx.author.mention} sync request made, please be patient :slight_smile:"
+        )
+
 
 async def setup(bot):
     await bot.add_cog(Admin(bot))

@@ -12,9 +12,8 @@ from yaniv_bot.core import config, errors
 config = config.load()
 
 intents = discord.Intents.all()
-intents.message_content = True
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"), intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
 
 bot.config = config
 
@@ -24,7 +23,6 @@ message_logs = {}
 @bot.event
 async def on_ready() -> None:
     print(f"{bot.user} has connected")
-    await bot.tree.sync()
 
 
 @bot.event
@@ -36,8 +34,8 @@ async def on_message(message: discord.Message) -> None:
         await message.channel.send(random.choice(bot.config["responses"]))
         await bot.process_commands(message)
 
-    if message.author.id == 276867841540489228:
-        message_logs.update({message.id: message.content})
+    if message.author.id in [276867841540489228]:
+        message_logs.update({message.id: (message.content, message.attachments)})
     else:
         await bot.process_commands(message)
 
@@ -46,7 +44,16 @@ async def on_message(message: discord.Message) -> None:
 async def on_message_delete(message: discord.Message) -> None:
     if message.id in message_logs:
         await message.channel.send(f"{message.author.mention} just deleted a message")
-        await message.channel.send(f"{message_logs[message.id]}")
+
+        content = message_logs[message.id][0]
+        attachments: list(discord.Attachment) = message_logs[message.id][1]
+
+        if content:
+            await message.channel.send(f"{content}")
+
+        if attachments:
+            for attachemnt in attachments:
+                await message.channel.send(f"{attachemnt.url}")
 
 
 @bot.event
