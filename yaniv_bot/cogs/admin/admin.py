@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 
 
@@ -13,6 +14,10 @@ class Admin(commands.Cog, name="Admin Commands"):
         brief="Kicks a server member.",
     )
     @commands.has_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
+    @app_commands.describe(
+        member="The member to be kicked.", reason="The reason the member was kicked."
+    )
     async def kick(
         self,
         ctx: commands.Context,
