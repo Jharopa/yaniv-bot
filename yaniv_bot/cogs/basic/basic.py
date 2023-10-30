@@ -78,7 +78,16 @@ class Basic(commands.Cog, name="Basic Commands"):
     )
     @checks.not_blacklisted()
     async def about(self, ctx: commands.Context) -> None:
-        await ctx.send("https://github.com/Jharopa/yaniv-bot")
+        embed = discord.Embed(
+            title="YanivBot GitHub",
+            url="https://github.com/Jharopa/yaniv-bot",
+            description="Star, contribute, or just have a look around!",
+        )
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/app-icons/1019587025420173323/bcabb23a73df96956e63cba99891eace.png"
+        )
+
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):
