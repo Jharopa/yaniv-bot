@@ -17,36 +17,13 @@ class Basic(commands.Cog, name="Basic Commands"):
         self.quotes: list[str] = []
 
     @commands.hybrid_command(
-        name="site",
-        description="Use this command for a link to the G.O.A.T of all sites.",
-        brief="The legend's own site.",
-    )
-    @checks.not_blacklisted()
-    async def website(self, ctx: commands.Context) -> None:
-        embed = discord.Embed(
-            title="YanivBoost.com",
-            type="link",
-            description="YanivBoost.com, for your Yaniv boosting needs!",
-            url="https://yanivboost.com/",
-        )
-
-        await ctx.send(embed=embed)
-
-    @website.error
-    async def website_error(
-        self, ctx: commands.Context, error: commands.CommandError
-    ) -> None:
-        if isinstance(error, commands.CheckFailure):
-            return
-
-    @commands.hybrid_command(
         name="quote",
-        description="Use this command for a random, classic Yaniv qoute.",
-        brief="What has he got to say today?",
+        description="Use this command for a random qoute.",
+        brief="What have we got to say today?",
     )
     @checks.not_blacklisted()
     async def qoute(self, ctx: commands.Context) -> None:
-        await ctx.send(f'"{self.get_quote()}" - __Yaniv__ <:Yshit:824266966775889931>')
+        await ctx.send(f'"{self.get_quote()}"')
 
     @qoute.error
     async def qoute_error(
