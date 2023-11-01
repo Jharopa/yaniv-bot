@@ -10,14 +10,10 @@ config = config.load()
 
 intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
-
 
 class YanivBot(commands.Bot):
     def __init__(self) -> None:
-        super().__init__(
-            command_prefix=commands.when_mentioned_or(config["prefix"]), intents=intents
-        )
+        super().__init__(command_prefix="!", intents=intents)
 
         self.config = config
         self.channel = None
@@ -51,12 +47,12 @@ class YanivBot(commands.Bot):
         if message.author.id in self.config["unique_respondees"]:
             await message.channel.send(random.choice(self.config["responses"]))
 
-        if message.author.id in [276867841540489228]:
+        if message.author.id in self.config["anti_deletion_users"]:
             self.message_logs.update(
-                {message.id: (message.content, message.attachments)}
+                {message.id: (message.content, message.attachments, message.stickers)}
             )
 
-            await self.process_commands(message)
+        await self.process_commands(message)
 
     async def on_message_delete(self, message: discord.Message) -> None:
         if message.id in self.message_logs:
@@ -66,6 +62,7 @@ class YanivBot(commands.Bot):
 
             content = self.message_logs[message.id][0]
             attachments: list(discord.Attachment) = self.message_logs[message.id][1]
+            stickers: list(discord.StickerItem) = self.message_logs[message.id][2]
 
             if content:
                 await message.channel.send(f"{content}")
@@ -73,6 +70,14 @@ class YanivBot(commands.Bot):
             if attachments:
                 for attachemnt in attachments:
                     await message.channel.send(f"{attachemnt.url}")
+
+            if stickers:
+                try:
+                    await message.channel.send(stickers=stickers)
+                except discord.errors.Forbidden:
+                    await message.channel.send(
+                        "It had a standard sticker in it, YanivBot can't send those :pensive:\nhttps://github.com/discord/discord-api-docs/issues/6399"
+                    )
 
     async def on_command(self, ctx: commands.Context) -> None:
         return

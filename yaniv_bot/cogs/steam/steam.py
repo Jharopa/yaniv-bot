@@ -12,38 +12,32 @@ class Steam(commands.Cog, name="Steam Commands"):
         self.bot: commands.Bot = bot
 
     @commands.hybrid_command(
-        name="ys",
+        name="steam",
         description="Use this command to receive a link to Yaniv's Steam, along with other related information.",
         brief="The legend's Steam account.",
     )
     @checks.not_blacklisted()
-    async def steam_profile(self, ctx: commands.Context) -> None:
-        with requests.Session() as session:
-            user_stats = session.get(
-                f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={self.bot.config["steam_api_key"]}&steamids={self.bot.config["steam_id"]}'
-            ).json()["response"]["players"][0]
+    async def steam_profile(self, ctx: commands.Context, *, steam_id) -> None:
+        print(steam_id)
 
-            embed = discord.Embed(
-                title=user_stats["personaname"], url=user_stats["profileurl"]
+        steam_info = self.get_steam_info(steam_id)
+
+        print(steam_info)
+
+        embed = discord.Embed(
+            title=steam_info["personaname"], url=steam_info["profileurl"]
+        )
+
+        embed.set_thumbnail(url=steam_info["avatar"])
+
+        if "game" in steam_info:
+            embed.add_field(
+                name="Currently Playing",
+                value=steam_info["game"],
+                inline=False,
             )
 
-            embed.set_thumbnail(url=user_stats["avatarfull"])
-            embed.add_field(name="A.K.A", value=user_stats["realname"], inline=False)
-
-            if "gameid" in user_stats:
-                currently_playing = session.get(
-                    f'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key={self.bot.config["steam_api_key"]}&steamid={self.bot.config["steam_id"]}&include_appinfo=true&include_played_free_games=true&appids_filter[0]={user_stats["gameid"]}'
-                ).json()["response"]["games"][0]
-                embed.add_field(
-                    name="Currently Playing",
-                    value=currently_playing["name"],
-                    inline=False,
-                )
-                embed.set_image(
-                    url=f'http://media.steampowered.com/steamcommunity/public/images/apps/{currently_playing["appid"]}/{currently_playing["img_icon_url"]}.jpg'
-                )
-
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @steam_profile.error
     async def steam_profile_error(
@@ -51,6 +45,25 @@ class Steam(commands.Cog, name="Steam Commands"):
     ) -> None:
         if isinstance(error, commands.CheckFailure):
             return
+
+    def get_steam_info(self, steam_id):
+        with requests.Session() as session:
+            summary = session.get(
+                f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={self.bot.config["steam_api_key"]}&steamids={steam_id}'
+            ).json()["response"]["players"][0]
+
+            if "gameid" in summary:
+                playing = session.get(
+                    f'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key={self.bot.config["steam_api_key"]}&steamid={steam_id}&include_appinfo=true&include_played_free_games=true&appids_filter[0]={summary["gameid"]}'
+                ).json()["response"]["games"][0]
+
+            return {
+                "personaname": summary["personaname"],
+                "profileurl": summary["profileurl"],
+                "avatar": summary["avatarfull"],
+                "game": playing["name"],
+                "game_img": f'http://media.steampowered.com/steamcommunity/public/images/apps/{playing["appid"]}/{playing["img_icon_url"]}.jpg',
+            }
 
 
 async def setup(bot):

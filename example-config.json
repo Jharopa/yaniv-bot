@@ -10,6 +10,9 @@
         123456789,
         987654321
     ],
-    "steam_api_key": "",
-    "steam_id": ""
+    "anti_deletion_users": [
+        123456789,
+        987654321
+    ],
+    "steam_api_key": ""
 }
