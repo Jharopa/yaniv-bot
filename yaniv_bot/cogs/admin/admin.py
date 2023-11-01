@@ -70,12 +70,12 @@ class Admin(commands.Cog, name="Admin Commands"):
         description="Use this command to sync Yaniv bot's slash commands with the server",
         brief="Syncs Yaniv bot's slash commands",
     )
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(kick_members=True)
     async def sync(
         self,
         ctx: commands.Context,
     ):
-        await self.bot.tree.sync(guild=ctx.guild)
+        await self.bot.tree.sync()
         await ctx.send(
             f"{ctx.author.mention} sync request made, please be patient :slight_smile:"
         )
