@@ -12,7 +12,6 @@
 - [ ] Logging utility
 - [ ] Production/Development builds
 - [ ] Deploy bot
-- [ ] Message deletion logging
 
 ### Done ✓
 ---
@@ -25,3 +24,4 @@
 - [x] User blacklist for commands
 - [x] Error handling for bot commands
 - [x] Project configuration
+- [x] Message deletion logging
