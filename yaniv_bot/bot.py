@@ -98,6 +98,8 @@ class YanivBot(commands.Bot):
             )
         elif isinstance(error, commands.errors.HybridCommandError):
             return
+        elif isinstance(error, commands.errors.BadArgument):
+            return
         else:
             raise error
 
